@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+
+using Microsoft.Win32;
 
 namespace IconPing
 {
@@ -22,6 +23,7 @@ namespace IconPing
         private MenuItem timer_1000;
         private MenuItem timer_5000;
         private MenuItem timer_30000;
+        private MenuItem startUp;
 
         Icon
             goodIcon = Properties.Resources.iconok,
@@ -39,6 +41,10 @@ namespace IconPing
             timer_30000 = trayMenu.MenuItems.Add("30 seconds", PingTimer_30000);
 
             timer_5000.Checked = true;
+
+            trayMenu.MenuItems.Add("-");
+            startUp = trayMenu.MenuItems.Add("Open at startup", SetStartup);
+            startUp.Checked = CheckStartup();
 
             trayMenu.MenuItems.Add("-");
             trayMenu.MenuItems.Add("Exit", OnExit);
@@ -96,6 +102,49 @@ namespace IconPing
             timer_30000.Checked = true;
 
             pingTimer.Interval = 30000;
+        }
+
+        private void SetStartup(object sender, EventArgs e)
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (rk != null)
+            {
+                string val = (string) rk.GetValue("IconPing");
+                if (val == null)
+                {
+                    startUp.Checked = true;
+                    rk.SetValue("IconPing", Application.ExecutablePath.ToString());
+                }
+                else
+                {
+                    startUp.Checked = false;
+                    rk.DeleteValue("IconPing", false);
+                }
+            }
+            else
+            {
+                MessageBox.Show("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+                                "Unhandled error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
+        private bool CheckStartup()
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (rk != null)
+            {
+                string val = (string)rk.GetValue("IconPing");
+                if (val != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         protected override void Dispose(bool isDisposing)
