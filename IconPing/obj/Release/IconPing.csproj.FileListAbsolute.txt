@@ -1,5 +1,0 @@
-c:\users\bisis\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\bin\Release\IconPing.exe
-c:\users\bisis\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\IconPing.Properties.Resources.resources
-c:\users\bisis\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\IconPing.csproj.GenerateResource.Cache
-c:\users\bisis\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\IconPing.exe
-c:\users\bisis\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\IconPing.csprojResolveAssemblyReference.cache
